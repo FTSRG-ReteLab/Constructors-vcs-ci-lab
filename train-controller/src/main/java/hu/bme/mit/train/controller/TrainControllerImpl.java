@@ -15,7 +15,7 @@ public class TrainControllerImpl implements TrainController {
 		} else if(referenceSpeed + step < 0) {
 			referenceSpeed = 0;
 		} else {
-			referenceSpeed += step;
+			referenceSpeed+= step;
 		}
 
 		enforceSpeedLimit();
