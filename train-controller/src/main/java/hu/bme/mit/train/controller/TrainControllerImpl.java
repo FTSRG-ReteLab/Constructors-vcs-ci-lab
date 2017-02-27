@@ -17,6 +17,8 @@ public class TrainControllerImpl implements TrainController {
 		} else {
 			referenceSpeed+=step;
 		}
+
+		enforceSpeedLimit();
 	}
 
 	@Override
