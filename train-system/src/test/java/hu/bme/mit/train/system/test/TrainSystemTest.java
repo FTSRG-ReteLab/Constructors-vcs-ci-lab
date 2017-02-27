@@ -1,5 +1,6 @@
 package hu.bme.mit.train.system.test;
 
+import hu.bme.mit.train.controller.TrainControllerImpl;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,17 +12,18 @@ import hu.bme.mit.train.system.TrainSystem;
 
 public class TrainSystemTest {
 
+	TrainControllerImpl controllerImpl;
 	TrainController controller;
 	TrainSensor sensor;
 	TrainUser user;
-	
+
 	@Before
 	public void before() {
 		TrainSystem system = new TrainSystem();
 		controller = system.getController();
 		sensor = system.getSensor();
 		user = system.getUser();
-
+		controllerImpl = new TrainControllerImpl();
 		sensor.overrideSpeedLimit(50);
 	}
 	
@@ -62,5 +64,11 @@ public class TrainSystemTest {
 		Assert.assertEquals(19, controller.getReferenceSpeed());
 	}
 
-	
+
+	@Test
+	public void test4() {
+		controllerImpl.setJoystickPosition(5);
+		Assert.assertEquals(1, controllerImpl.getTachograph().size());
+	}
+
 }

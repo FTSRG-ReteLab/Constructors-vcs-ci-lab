@@ -1,12 +1,21 @@
 package hu.bme.mit.train.controller;
 
+import com.google.common.collect.HashBasedTable;
+import com.google.common.collect.Table;
 import hu.bme.mit.train.interfaces.TrainController;
+
+import java.time.LocalDateTime;
+
 
 public class TrainControllerImpl implements TrainController {
 
 	private int step = 0;
 	private int referenceSpeed = 0;
 	private int speedLimit = 0;
+	// 	R	Now
+	//	C	Joystick position
+	//	V	Reference speed
+	private Table<LocalDateTime, Integer, Integer> tachograph = HashBasedTable.create();
 
 	@Override
 	public void followSpeed() {
@@ -19,6 +28,8 @@ public class TrainControllerImpl implements TrainController {
 		}
 
 		enforceSpeedLimit();
+
+		tachograph.put(LocalDateTime.now(), step, referenceSpeed);
 	}
 
 	@Override
@@ -41,7 +52,12 @@ public class TrainControllerImpl implements TrainController {
 
 	@Override
 	public void setJoystickPosition(int joystickPosition) {
-		this.step = joystickPosition;		
+		this.step = joystickPosition;
+		tachograph.put(LocalDateTime.now(), step, referenceSpeed);
+	}
+
+	public Table<LocalDateTime, Integer, Integer> getTachograph() {
+		return tachograph;
 	}
 
 }
